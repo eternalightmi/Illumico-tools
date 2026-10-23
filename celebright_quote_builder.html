@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Celebright Quote Builder | Illumico Michigan</title>
+<style>
+  :root {
+    --bg: #14171f;
+    --bg-panel: #1b1f2a;
+    --bg-panel-raised: #222738;
+    --line: #2c3242;
+    --line-soft: #242938;
+    --text: #e9e7de;
+    --text-dim: #9a9fb0;
+    --text-faint: #656b7e;
+    --amber: #d9a54c;
+    --amber-soft: #4a3d24;
+    --moss: #7ba17e;
+    --moss-soft: #253226;
+    --rust: #c2705a;
+    --rust-soft: #3a2621;
+    --sky: #6f95b3;
+    --radius: 3px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Iowan Old Style', 'Georgia', 'Times New Roman', serif;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .ui {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+
+  header.top {
+    padding: 28px 32px 20px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  header.top h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+  }
+  header.top h1 .brand-mark {
+    color: var(--amber);
+  }
+  header.top .sub {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: 12.5px;
+    color: var(--text-faint);
+    margin-top: 4px;
+  }
+
+  .job-meta {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  input, select, textarea, button {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+
+  input[type="text"], input[type="number"], select {
+    background: var(--bg-panel-raised);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 7px 9px;
+    border-radius: var(--radius);
+    font-size: 13.5px;
+  }
+  input[type="text"]:focus, input[type="number"]:focus, select:focus {
+    outline: none;
+    border-color: var(--amber);
+  }
+  input::placeholder { color: var(--text-faint); }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 26px 32px 80px;
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 28px;
+  }
+
+  @media (max-width: 880px) {
+    .wrap { grid-template-columns: 1fr; padding: 18px; }
+    header.top { padding: 20px; }
+  }
+
+  .main-col { min-width: 0; }
+
+  section.block {
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    margin-bottom: 22px;
+  }
+
+  .block-head {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .block-head h2 {
+    margin: 0;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.2px;
+  }
+  .block-head .hint {
+    font-size: 11.5px;
+    color: var(--text-faint);
+  }
+  .block-body { padding: 16px 18px 18px; }
+
+  button {
+    cursor: pointer;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: var(--bg-panel-raised);
+    color: var(--text);
+    padding: 7px 13px;
+    font-size: 13px;
+    transition: border-color 0.15s;
+  }
+  button:hover { border-color: var(--amber); }
+  button.primary {
+    background: var(--amber-soft);
+    border-color: var(--amber);
+    color: var(--amber);
+    font-weight: 600;
+  }
+  button.primary:hover { background: var(--amber); color: #1a1508; }
+  button.ghost {
+    background: transparent;
+    border-color: transparent;
+    color: var(--text-faint);
+    padding: 4px 6px;
+    font-size: 12px;
+  }
+  button.ghost:hover { color: var(--rust); border-color: transparent; }
+  button.small { padding: 5px 10px; font-size: 12px; }
+
+  /* Controller / chain structure */
+  .controller-card {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .controller-card:last-child { margin-bottom: 0; }
+  .controller-head {
+    background: var(--bg-panel-raised);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+  .controller-head .name {
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .controller-head input[type="text"] {
+    background: transparent;
+    border: 1px solid transparent;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 3px 5px;
+    width: 190px;
+  }
+  .controller-head input[type="text"]:hover { border-color: var(--line); }
+
+  .supply-select {
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .chains {
+    padding: 12px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .chain-card {
+    background: var(--bg-panel-raised);
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+  }
+  .chain-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+  .chain-top .label {
+    font-size: 12.5px;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .chain-top input[type="number"] { width: 72px; }
+  .chain-top select { width: auto; }
+
+  .fixture-row {
+    display: grid;
+    grid-template-columns: 1.6fr 70px 70px 26px;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 6px;
+    font-size: 12.5px;
+  }
+  .fixture-row select { width: 100%; }
+  .fixture-row .wattage { color: var(--text-faint); font-size: 11.5px; text-align: right; }
+
+  .add-fixture-row {
+    margin-top: 4px;
+  }
+
+  .budget-bar-wrap {
+    margin-top: 10px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+  .budget-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11.5px;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+  .budget-track {
+    height: 7px;
+    background: var(--line-soft);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .budget-fill { height: 100%; border-radius: 4px; transition: width 0.2s; }
+  .budget-fill.ok { background: var(--moss); }
+  .budget-fill.warn { background: var(--amber); }
+  .budget-fill.over { background: var(--rust); }
+
+  .chain-note {
+    margin-top: 8px;
+    font-size: 11.5px;
+    padding: 6px 9px;
+    border-radius: var(--radius);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+  .chain-note.ok { color: var(--moss); background: var(--moss-soft); }
+  .chain-note.warn { color: var(--amber); background: var(--amber-soft); }
+  .chain-note.over { color: var(--rust); background: var(--rust-soft); }
+
+  .chain-foot {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--line);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+
+  .add-row {
+    padding: 10px 14px 14px;
+  }
+
+  /* Reference table */
+  table.ref {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+  table.ref th, table.ref td {
+    text-align: left;
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--line-soft);
+    color: var(--text-dim);
+  }
+  table.ref th { color: var(--text-faint); font-weight: 500; font-size: 11px; text-transform: none; }
+  table.ref td.fx-name { color: var(--text); }
+
+  /* Sidebar */
+  .side-col { position: sticky; top: 20px; align-self: start; }
+
+  .price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    font-size: 13px;
+  }
+  .price-row.total {
+    border-top: 1px solid var(--line);
+    margin-top: 8px;
+    padding-top: 10px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .price-row .amt { color: var(--text); }
+  .price-row.total .amt { color: var(--amber); }
+  .price-row input[type="number"] { width: 90px; text-align: right; }
+  .price-row .lbl { color: var(--text-dim); flex: 1; }
+  .price-row .lbl small { display: block; color: var(--text-faint); font-size: 10.5px; margin-top: 1px; }
+
+  .fx-price-block {
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line-soft);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+  .fx-price-block:last-child { border-bottom: none; }
+  .fx-price-name {
+    font-size: 12.5px;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .fx-price-unit { color: var(--amber); font-weight: 600; }
+  .fx-price-inputs {
+    display: flex;
+    gap: 8px;
+  }
+  .fx-price-field { flex: 1; }
+  .fx-price-field input { width: 100%; }
+
+  .qty-summary {
+    font-size: 12.5px;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+  .qty-summary div { display: flex; justify-content: space-between; padding: 2px 0; }
+
+  .divider { height: 1px; background: var(--line-soft); margin: 12px 0; }
+
+  .copy-output {
+    width: 100%;
+    min-height: 120px;
+    background: var(--bg-panel-raised);
+    border: 1px solid var(--line);
+    color: var(--text-dim);
+    font-family: 'SF Mono', Menlo, monospace;
+    font-size: 11.5px;
+    padding: 10px;
+    border-radius: var(--radius);
+    resize: vertical;
+    white-space: pre;
+  }
+
+  .saved-list {
+    font-size: 12.5px;
+  }
+  .saved-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .saved-item button { padding: 3px 8px; font-size: 11px; }
+
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--amber);
+    color: #1a1508;
+    padding: 9px 18px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 50;
+  }
+  .toast.show { opacity: 1; }
+
+  .field-label {
+    font-size: 11px;
+    color: var(--text-faint);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    margin-bottom: 3px;
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<header class="top ui">
+  <div>
+    <h1><span class="brand-mark">Illumico</span> Michigan — Celebright Quote Builder</h1>
+    <div class="sub">Landscape lighting &amp; Downlights · power budgets against the Celebright chain tables</div>
+  </div>
+  <div class="job-meta">
+    <a href="index.html" style="color:var(--text-dim);font-size:13px;text-decoration:none;margin-right:6px;">&larr; All tools</a>
+    <div>
+      <span class="field-label">Job / customer</span>
+      <input type="text" id="jobName" placeholder="e.g. Henderson — 1420 Maple St" style="width:240px;">
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="main-col">
+
+    <section class="block ui">
+      <div class="block-head">
+        <h2>Controllers &amp; chains</h2>
+        <span class="hint">each power supply = 96 W, one independent chain</span>
+      </div>
+      <div class="block-body">
+        <div id="controllers"></div>
+        <div class="add-row">
+          <button class="primary" id="addControllerBtn">+ Add controller</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="block ui">
+      <div class="block-head">
+        <h2>Fixture reference</h2>
+        <span class="hint">CB‑LAND line, 24V DC, daisy‑chain data</span>
+      </div>
+      <div class="block-body">
+        <table class="ref">
+          <thead>
+            <tr><th>Fixture</th><th>Model</th><th>Power</th><th>Lumens</th><th>Beam</th><th>Best use</th></tr>
+          </thead>
+          <tbody id="refTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="block ui">
+      <div class="block-head">
+        <h2>Wiring notes for this job</h2>
+      </div>
+      <div class="block-body" style="font-size:13px; color: var(--text-dim);">
+        <ul style="margin:0; padding-left:18px;">
+          <li>Every fixture wires in strict series — controller → fixture 1 → fixture 2 → ... No T‑splices or branches; data breaks downstream of any split.</li>
+          <li>Max 75 ft between adjacent fixtures on a chain.</li>
+          <li>A chain cannot bridge across two power supplies — each supply is its own independent run back to the controller.</li>
+          <li>Use SJTW from controller to the first fixture, LVLL flat 16/3 for buried fixture‑to‑fixture runs, and 18/3 CMX for any run routed through the building.</li>
+          <li>Downlights daisy-chain into the same 24V runs via water-tight M12 connectors (male in / female out) and draw up to 3.3 W each — they share the same per-chain wattage budget as the landscape fixtures, so confirm the budget before adding them onto an existing run.</li>
+          <li>Treat a chain at 95%+ of its wattage budget as overloaded — leave headroom for voltage drop variance.</li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="side-col ui">
+
+    <section class="block">
+      <div class="block-head"><h2>Job totals</h2></div>
+      <div class="block-body">
+        <div class="qty-summary" id="qtySummary"></div>
+        <div class="divider"></div>
+
+        <div class="price-row">
+          <div class="lbl">Fixture price<small>dealer cost (USD) + your flat install fee per unit</small></div>
+        </div>
+        <div id="fixturePriceRows"></div>
+
+        <div class="price-row" id="mountRow" style="display:none;">
+          <div class="lbl">Downlight mounts<small id="mountCountLbl">required, 1 per Downlight</small></div>
+          <div class="amt" id="mountSumAmt">$0.00</div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="price-row">
+          <div class="lbl">Controller(s)<small id="controllerCountLbl">0 controller</small></div>
+          <div class="amt" id="controllerSumAmt">$0</div>
+        </div>
+        <div class="price-row">
+          <div class="lbl">Other<small>permits, extra trenching, travel, etc.</small></div>
+          <input type="number" id="otherCost" value="0" min="0" step="1">
+        </div>
+
+        <div class="price-row total">
+          <div class="lbl">Total</div>
+          <div class="amt" id="totalAmt">$0</div>
+        </div>
+
+        <div class="divider"></div>
+        <button class="primary" id="buildQuoteBtn" style="width:100%;">Build quote text</button>
+        <textarea class="copy-output" id="quoteOutput" style="margin-top:10px; display:none;" readonly></textarea>
+        <button class="small" id="copyQuoteBtn" style="width:100%; margin-top:8px; display:none;">Copy to clipboard</button>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-head"><h2>Saved quotes</h2></div>
+      <div class="block-body">
+        <div class="saved-list" id="savedList"></div>
+        <button class="small" id="saveQuoteBtn" style="width:100%; margin-top:10px;">Save this quote</button>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// Saved quotes live in this browser (localStorage) so the page works on GitHub Pages.
+window.storage = window.storage || {
+  _p: 'illumico-celebright:',
+  async set(k, v) { try { localStorage.setItem(this._p + k, v); return true; } catch (e) { return false; } },
+  async get(k) { try { const v = localStorage.getItem(this._p + k); return v === null ? null : { value: v }; } catch (e) { return null; } },
+  async delete(k) { try { localStorage.removeItem(this._p + k); return true; } catch (e) { return false; } },
+  async list(prefix) {
+    const keys = [];
+    try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(this._p + prefix)) keys.push(k.slice(this._p.length)); } } catch (e) {}
+    keys.sort();
+    return { keys };
+  }
+};
+</script>
+<script>
+// ---------- Data ----------
+const CONTROLLER_PRICE = { 1: 325, 2: 350 }; // single-supply vs double-supply CLS controller
+// Dealer cost (USD) — landscape line from Celebright's updated USD pricing; Downlight from dealer quote
+const DEALER_COST = {
+  PATH: 96.66,
+  UPLIGHT: 89.10,
+  MINI: 69.66,
+  WELL: 78.30,
+  HARDSCAPE: 58.86,
+  DL_BK: 42.65,
+  DL_NI: 42.65,
+  DL_WT: 42.65,
+};
+const DOWNLIGHT_MOUNT_COST = 8.92; // required per Downlight, added automatically as its own line
+const DOWNLIGHT_IDS = ['DL_BK', 'DL_NI', 'DL_WT'];
+const FIXTURES = [
+  { id: 'PATH', model: 'CB-LAND-PATH-LIGHT', name: 'Path Light', watts: 4, lumens: 180, beam: 'Down', use: 'Walkways, driveway edges, bed borders' },
+  { id: 'UPLIGHT', model: 'CB-LAND-UPLIGHT', name: 'Uplight', watts: 6, lumens: 550, beam: '38°', use: 'Trees, large shrubs, columns, façades' },
+  { id: 'MINI', model: 'CB-LAND-MINI-UPLIGHT', name: 'Mini Uplight', watts: 2.5, lumens: 118, beam: 'Wide diffuse', use: 'Ornamental grasses, sculptures, small accents' },
+  { id: 'WELL', model: 'CB-LAND-WELL-LIGHT', name: 'Well Light', watts: 6, lumens: 550, beam: '38°', use: 'In-ground uplighting, turf, hardscape' },
+  { id: 'HARDSCAPE', model: 'CB-LAND-HARDSCAPE', name: 'Hardscape Light', watts: 2, lumens: 116, beam: 'Wash', use: 'Steps, retaining walls, pillars, deck risers' },
+  { id: 'DL_BK', model: 'SC24-DLS-BK', name: 'Downlight — Black', watts: 3.3, lumens: 275, beam: 'Down', use: 'Soffits, eaves, façades — accent & wayfinding' },
+  { id: 'DL_NI', model: 'SC24-DLS-NI', name: 'Downlight — Nickel', watts: 3.3, lumens: 275, beam: 'Down', use: 'Soffits, eaves, façades — accent & wayfinding' },
+  { id: 'DL_WT', model: 'SC24-DLS-WT', name: 'Downlight — White', watts: 3.3, lumens: 275, beam: 'Down', use: 'Soffits, eaves, façades — accent & wayfinding' },
+];
+const fixtureById = id => FIXTURES.find(f => f.id === id);
+
+// cable length (ft) -> wattage budget per power supply, 16 AWG / 3C
+const POWER_TABLE = [
+  { max: 75, watts: 80 },
+  { max: 100, watts: 70 },
+  { max: 150, watts: 65 },
+  { max: 200, watts: 60 },
+  { max: 250, watts: 55 },
+  { max: 300, watts: 48 },
+];
+function budgetForLength(ft) {
+  if (ft <= 0) return POWER_TABLE[0].watts;
+  const tier = POWER_TABLE.find(t => ft <= t.max);
+  return tier ? tier.watts : null; // null = beyond 300ft, out of spec
+}
+function budgetLabelForLength(ft) {
+  if (ft <= 0) return '0–75 ft';
+  const tier = POWER_TABLE.find(t => ft <= t.max);
+  if (!tier) return 'beyond 300 ft';
+  const idx = POWER_TABLE.indexOf(tier);
+  const lo = idx === 0 ? 0 : POWER_TABLE[idx - 1].max;
+  return `${lo}–${tier.max} ft`;
+}
+
+// ---------- State ----------
+let state = {
+  controllers: []
+};
+let controllerSeq = 0, chainSeq = 0;
+
+function newChain(supplyLabel) {
+  chainSeq += 1;
+  return {
+    id: 'chain' + chainSeq,
+    supplyLabel,
+    cableLength: 100,
+    fixtures: [] // {fixtureId, qty}
+  };
+}
+
+function newController() {
+  controllerSeq += 1;
+  const supplies = 1; // default single-supply; user can switch to 2
+  return {
+    id: 'ctrl' + controllerSeq,
+    name: 'Controller ' + controllerSeq,
+    supplies,
+    chains: [ newChain('Supply 1') ]
+  };
+}
+
+function addController() {
+  const c = newController();
+  state.controllers.push(c);
+  render();
+}
+
+function setSupplies(ctrl, n) {
+  ctrl.supplies = n;
+  const wanted = n;
+  // add/remove chains to match supply count, keep 1 chain per supply minimum
+  const bySupply = {};
+  ctrl.chains.forEach(ch => { bySupply[ch.supplyLabel] = bySupply[ch.supplyLabel] || []; bySupply[ch.supplyLabel].push(ch); });
+  const labels = wanted === 1 ? ['Supply 1'] : ['Supply 1', 'Supply 2'];
+  ctrl.chains = ctrl.chains.filter(ch => labels.includes(ch.supplyLabel));
+  labels.forEach(lbl => {
+    if (!ctrl.chains.some(ch => ch.supplyLabel === lbl)) {
+      ctrl.chains.push(newChain(lbl));
+    }
+  });
+  render();
+}
+
+// ---------- Render ----------
+function el(tag, cls, html) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (html !== undefined) e.innerHTML = html;
+  return e;
+}
+
+function renderRefTable() {
+  const tbody = document.getElementById('refTable');
+  tbody.innerHTML = FIXTURES.map(f =>
+    `<tr><td class="fx-name">${f.name}</td><td>${f.model}</td><td>${f.watts} W</td><td>${f.lumens} lm</td><td>${f.beam}</td><td>${f.use}</td></tr>`
+  ).join('');
+}
+
+function chainWattage(chain) {
+  return chain.fixtures.reduce((sum, row) => {
+    const fx = fixtureById(row.fixtureId);
+    return sum + (fx ? fx.watts * row.qty : 0);
+  }, 0);
+}
+
+function renderControllers() {
+  const wrap = document.getElementById('controllers');
+  wrap.innerHTML = '';
+
+  if (state.controllers.length === 0) {
+    wrap.appendChild(el('div', null, '<p style="color:var(--text-faint); font-size:13px;">No controllers yet — add one to start building chains.</p>'));
+    return;
+  }
+
+  state.controllers.forEach(ctrl => {
+    const card = el('div', 'controller-card');
+
+    // head
+    const head = el('div', 'controller-head');
+    const nameWrap = el('div', 'name');
+    const nameInput = el('input');
+    nameInput.type = 'text';
+    nameInput.value = ctrl.name;
+    nameInput.addEventListener('input', e => { ctrl.name = e.target.value; syncSidebar(); });
+    nameWrap.appendChild(document.createTextNode(''));
+    nameWrap.appendChild(nameInput);
+    head.appendChild(nameWrap);
+
+    const rightWrap = el('div', null, '');
+    rightWrap.style.display = 'flex';
+    rightWrap.style.alignItems = 'center';
+    rightWrap.style.gap = '10px';
+
+    const supplyWrap = el('div', 'supply-select');
+    supplyWrap.innerHTML = 'Power supplies: ';
+    const supplySel = el('select');
+    supplySel.innerHTML = `<option value="1">1 (96 W)</option><option value="2">2 (96 W + 96 W)</option>`;
+    supplySel.value = String(ctrl.supplies);
+    supplySel.addEventListener('change', e => setSupplies(ctrl, Number(e.target.value)));
+    supplyWrap.appendChild(supplySel);
+    rightWrap.appendChild(supplyWrap);
+
+    const rmBtn = el('button', 'ghost', 'Remove');
+    rmBtn.addEventListener('click', () => {
+      state.controllers = state.controllers.filter(c => c.id !== ctrl.id);
+      render();
+    });
+    rightWrap.appendChild(rmBtn);
+
+    head.appendChild(rightWrap);
+    card.appendChild(head);
+
+    // chains
+    const chainsWrap = el('div', 'chains');
+    ctrl.chains.forEach(chain => chainsWrap.appendChild(renderChain(chain)));
+    card.appendChild(chainsWrap);
+
+    wrap.appendChild(card);
+  });
+}
+
+function renderChain(chain) {
+  const card = el('div', 'chain-card');
+
+  // top row: supply label + cable length
+  const top = el('div', 'chain-top');
+  top.appendChild(el('div', 'label', `<strong style="color:var(--text);">${chain.supplyLabel}</strong>`));
+
+  const lenLabel = el('div', 'label', 'Cable run (ft)');
+  const lenInput = el('input');
+  lenInput.type = 'number';
+  lenInput.min = 0;
+  lenInput.value = chain.cableLength;
+  lenInput.addEventListener('input', e => {
+    chain.cableLength = Math.max(0, Number(e.target.value) || 0);
+    render();
+  });
+  lenLabel.appendChild(lenInput);
+  top.appendChild(lenLabel);
+
+  card.appendChild(top);
+
+  // fixture rows
+  chain.fixtures.forEach((row, idx) => {
+    const fr = el('div', 'fixture-row');
+    const sel = el('select');
+    sel.innerHTML = FIXTURES.map(f => `<option value="${f.id}" ${f.id === row.fixtureId ? 'selected' : ''}>${f.name}</option>`).join('');
+    sel.addEventListener('change', e => { row.fixtureId = e.target.value; render(); });
+    fr.appendChild(sel);
+
+    const qty = el('input');
+    qty.type = 'number'; qty.min = 0; qty.value = row.qty;
+    qty.addEventListener('input', e => { row.qty = Math.max(0, Number(e.target.value) || 0); render(); });
+    fr.appendChild(qty);
+
+    const fx = fixtureById(row.fixtureId);
+    fr.appendChild(el('div', 'wattage', fx ? `${(fx.watts * row.qty).toFixed(1)} W` : ''));
+
+    const rm = el('button', 'ghost', '✕');
+    rm.addEventListener('click', () => { chain.fixtures.splice(idx, 1); render(); });
+    fr.appendChild(rm);
+
+    card.appendChild(fr);
+  });
+
+  const addRow = el('div', 'add-fixture-row');
+  const addBtn = el('button', 'small', '+ Add fixture');
+  addBtn.addEventListener('click', () => {
+    chain.fixtures.push({ fixtureId: 'PATH', qty: 1 });
+    render();
+  });
+  addRow.appendChild(addBtn);
+  card.appendChild(addRow);
+
+  // budget bar
+  const budget = budgetForLength(chain.cableLength);
+  const used = chainWattage(chain);
+  const barWrap = el('div', 'budget-bar-wrap');
+  const labels = el('div', 'budget-labels');
+  labels.innerHTML = `<span>${used.toFixed(1)} W used</span><span>${budget === null ? 'out of spec — max 300 ft' : budget + ' W budget (' + budgetLabelForLength(chain.cableLength) + ')'}</span>`;
+  barWrap.appendChild(labels);
+
+  const track = el('div', 'budget-track');
+  const fill = el('div', 'budget-fill');
+  let pct = 0, state_ = 'ok';
+  if (budget) {
+    pct = Math.min(100, (used / budget) * 100);
+    if (used > budget) state_ = 'over';
+    else if (used >= budget * 0.95) state_ = 'warn';
+  } else {
+    pct = 100; state_ = 'over';
+  }
+  fill.className = 'budget-fill ' + state_;
+  fill.style.width = pct + '%';
+  track.appendChild(fill);
+  barWrap.appendChild(track);
+  card.appendChild(barWrap);
+
+  // note
+  let note = null;
+  if (budget === null) {
+    note = el('div', 'chain-note over', `This chain's cable run exceeds the 300 ft spec table — split it across another power supply or controller.`);
+  } else if (state_ === 'over') {
+    note = el('div', 'chain-note over', `Over budget by ${(used - budget).toFixed(1)} W. Remove fixtures, shorten the run, or split across another supply.`);
+  } else if (state_ === 'warn') {
+    note = el('div', 'chain-note warn', `At ${pct.toFixed(0)}% of budget — treat as overloaded per the install guide. Leave headroom for voltage-drop variance.`);
+  } else {
+    note = el('div', 'chain-note ok', `${(budget - used).toFixed(1)} W of headroom remaining on this chain.`);
+  }
+  card.appendChild(note);
+
+  // fixture-to-fixture spacing sanity check
+  const totalFixtures = chain.fixtures.reduce((s, r) => s + r.qty, 0);
+  if (totalFixtures > 1 && chain.cableLength > 0) {
+    const avgSpacing = chain.cableLength / (totalFixtures - 1);
+    if (chain.cableLength / totalFixtures > 75 || avgSpacing > 75) {
+      // only a loose heads-up, not a hard fail since layout isn't linear-uniform
+    }
+  }
+
+  // foot
+  const foot = el('div', 'chain-foot');
+  foot.innerHTML = `<span style="font-size:12px; color:var(--text-faint);">${totalFixtures} fixture${totalFixtures === 1 ? '' : 's'} on this chain</span>`;
+  const rmChain = el('button', 'ghost', 'Remove chain');
+  rmChain.addEventListener('click', () => {
+    const ctrl = state.controllers.find(c => c.chains.includes(chain));
+    if (ctrl) { ctrl.chains = ctrl.chains.filter(ch => ch.id !== chain.id); render(); }
+  });
+  foot.appendChild(rmChain);
+  card.appendChild(foot);
+
+  return card;
+}
+
+// ---------- Sidebar: totals & pricing ----------
+let fixturePrices = {}; // id -> { cost, install } — cost from dealer price sheet (USD), install = flat fee (labor+markup)
+FIXTURES.forEach(f => fixturePrices[f.id] = { cost: DEALER_COST[f.id] || 0, install: 0 });
+
+function allChains() {
+  return state.controllers.flatMap(c => c.chains);
+}
+
+function fixtureTotals() {
+  const totals = {};
+  FIXTURES.forEach(f => totals[f.id] = 0);
+  allChains().forEach(ch => ch.fixtures.forEach(r => { totals[r.fixtureId] = (totals[r.fixtureId] || 0) + r.qty; }));
+  return totals;
+}
+
+function renderQtySummary() {
+  const totals = fixtureTotals();
+  const box = document.getElementById('qtySummary');
+  const parts = FIXTURES.filter(f => totals[f.id] > 0).map(f => `<div><span>${f.name}</span><span>${totals[f.id]}</span></div>`);
+  const totalFx = Object.values(totals).reduce((a, b) => a + b, 0);
+  const totalChains = allChains().length;
+  box.innerHTML = (parts.length ? parts.join('') : '<div style="color:var(--text-faint);">No fixtures added yet</div>')
+    + `<div style="margin-top:6px; padding-top:6px; border-top:1px solid var(--line-soft); font-weight:600;"><span>Total fixtures</span><span>${totalFx}</span></div>`
+    + `<div><span>Chains / power supplies</span><span>${totalChains}</span></div>`
+    + `<div><span>Controllers</span><span>${state.controllers.length}</span></div>`;
+}
+
+function renderFixturePriceRows() {
+  const totals = fixtureTotals();
+  const box = document.getElementById('fixturePriceRows');
+  box.innerHTML = '';
+  FIXTURES.filter(f => totals[f.id] > 0).forEach(f => {
+    const p = fixturePrices[f.id];
+    const unit = (p.cost || 0) + (p.install || 0);
+    const row = el('div', 'fx-price-block');
+    row.innerHTML = `<div class="fx-price-name">${f.name} × ${totals[f.id]} <span class="fx-price-unit">$${unit.toFixed(2)} ea installed</span></div>`;
+
+    const inputsRow = el('div', 'fx-price-inputs');
+
+    const costWrap = el('div', 'fx-price-field');
+    costWrap.innerHTML = '<span class="field-label">Dealer cost (USD)</span>';
+    const costInput = el('input');
+    costInput.type = 'number'; costInput.min = 0; costInput.step = '0.01';
+    costInput.value = p.cost;
+    costInput.addEventListener('input', e => { p.cost = Number(e.target.value) || 0; computeTotal(); renderFixturePriceRows(); });
+    costWrap.appendChild(costInput);
+    inputsRow.appendChild(costWrap);
+
+    const feeWrap = el('div', 'fx-price-field');
+    feeWrap.innerHTML = '<span class="field-label">Install fee (labor + markup)</span>';
+    const feeInput = el('input');
+    feeInput.type = 'number'; feeInput.min = 0; feeInput.step = '0.01';
+    feeInput.value = p.install;
+    feeInput.addEventListener('input', e => { p.install = Number(e.target.value) || 0; computeTotal(); renderFixturePriceRows(); });
+    feeWrap.appendChild(feeInput);
+    inputsRow.appendChild(feeWrap);
+
+    row.appendChild(inputsRow);
+    box.appendChild(row);
+  });
+  if (Object.values(totals).every(v => v === 0)) {
+    box.innerHTML = '<div style="color:var(--text-faint); font-size:12.5px; padding: 4px 0;">Add fixtures above to price them here</div>';
+  }
+}
+
+function computeTotal() {
+  const totals = fixtureTotals();
+  let fixtureSum = 0;
+  FIXTURES.forEach(f => {
+    const p = fixturePrices[f.id];
+    const unit = (p.cost || 0) + (p.install || 0);
+    fixtureSum += unit * totals[f.id];
+  });
+
+  const downlightQty = DOWNLIGHT_IDS.reduce((sum, id) => sum + (totals[id] || 0), 0);
+  const mountSum = downlightQty * DOWNLIGHT_MOUNT_COST;
+  const mountRow = document.getElementById('mountRow');
+  if (downlightQty > 0) {
+    mountRow.style.display = 'flex';
+    document.getElementById('mountCountLbl').textContent = `required, 1 per Downlight × ${downlightQty} @ $${DOWNLIGHT_MOUNT_COST.toFixed(2)}`;
+    document.getElementById('mountSumAmt').textContent = '$' + mountSum.toFixed(2);
+  } else {
+    mountRow.style.display = 'none';
+  }
+
+  const controllerCount = state.controllers.length;
+  document.getElementById('controllerCountLbl').textContent = controllerCount + ' controller' + (controllerCount === 1 ? '' : 's');
+  const controllerSum = state.controllers.reduce((sum, c) => sum + (CONTROLLER_PRICE[c.supplies] || 0), 0);
+  document.getElementById('controllerSumAmt').textContent = '$' + controllerSum.toLocaleString();
+
+  const other = Number(document.getElementById('otherCost').value) || 0;
+
+  const total = fixtureSum + controllerSum + mountSum + other;
+  document.getElementById('totalAmt').textContent = '$' + total.toLocaleString(undefined, { maximumFractionDigits: 0 });
+  return { fixtureSum, controllerSum, mountSum, other, total, totals };
+}
+
+function syncSidebar() {
+  renderQtySummary();
+  renderFixturePriceRows();
+  computeTotal();
+}
+
+// ---------- Quote text ----------
+function buildQuoteText() {
+  const job = document.getElementById('jobName').value || 'Untitled job';
+  const { fixtureSum, controllerSum, mountSum, other, total, totals } = computeTotal();
+  const downlightQty = DOWNLIGHT_IDS.reduce((sum, id) => sum + (totals[id] || 0), 0);
+  let lines = [];
+  lines.push(`ILLUMICO MICHIGAN — Celebright Landscape Lighting Quote`);
+  lines.push(job);
+  lines.push('');
+  lines.push('FIXTURES (installed price — materials + labor + markup)');
+  FIXTURES.forEach(f => {
+    if (totals[f.id] > 0) {
+      const p = fixturePrices[f.id];
+      const unit = (p.cost || 0) + (p.install || 0);
+      lines.push(`  ${f.name} (${f.model}) × ${totals[f.id]} — $${unit.toFixed(2)} ea = $${(unit * totals[f.id]).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`);
+    }
+  });
+  lines.push('');
+  lines.push('SYSTEM');
+  state.controllers.forEach(ctrl => {
+    lines.push(`  ${ctrl.name} — ${ctrl.supplies} power ${ctrl.supplies > 1 ? 'supplies' : 'supply'} — $${(CONTROLLER_PRICE[ctrl.supplies] || 0).toLocaleString()}`);
+    ctrl.chains.forEach(ch => {
+      const w = chainWattage(ch);
+      const b = budgetForLength(ch.cableLength);
+      lines.push(`    ${ch.supplyLabel}: ${ch.cableLength} ft run, ${w.toFixed(1)} W of ${b === null ? 'out-of-spec' : b + ' W'} budget`);
+    });
+  });
+  lines.push('');
+  lines.push('PRICING');
+  lines.push(`  Fixtures (installed): $${fixtureSum.toLocaleString()}`);
+  lines.push(`  Controller(s): $${controllerSum.toLocaleString()}`);
+  if (downlightQty > 0) lines.push(`  Downlight mounts (${downlightQty} × $${DOWNLIGHT_MOUNT_COST.toFixed(2)}): $${mountSum.toFixed(2)}`);
+  if (other) lines.push(`  Other: $${other.toLocaleString()}`);
+  lines.push(`  TOTAL: $${total.toLocaleString()}`);
+  return lines.join('\n');
+}
+
+document.getElementById('buildQuoteBtn').addEventListener('click', () => {
+  const out = document.getElementById('quoteOutput');
+  out.value = buildQuoteText();
+  out.style.display = 'block';
+  document.getElementById('copyQuoteBtn').style.display = 'block';
+});
+
+document.getElementById('copyQuoteBtn').addEventListener('click', async () => {
+  const out = document.getElementById('quoteOutput');
+  try {
+    await navigator.clipboard.writeText(out.value);
+    showToast('Copied — paste into Jobber or an email');
+  } catch (e) {
+    out.select();
+    showToast('Select-all ready — copy manually');
+  }
+});
+
+// ---------- Save / load (personal storage) ----------
+async function saveQuote() {
+  const job = document.getElementById('jobName').value || 'Untitled job';
+  const id = 'quote:' + Date.now();
+  const payload = {
+    job,
+    savedAt: new Date().toISOString(),
+    state,
+    fixturePrices,
+    otherCost: document.getElementById('otherCost').value,
+  };
+  try {
+    const res = await window.storage.set(id, JSON.stringify(payload), false);
+    if (res) { showToast('Quote saved'); await renderSavedList(); }
+    else showToast('Save failed — try again');
+  } catch (e) {
+    showToast('Save failed: ' + e.message);
+  }
+}
+
+async function renderSavedList() {
+  const box = document.getElementById('savedList');
+  try {
+    const list = await window.storage.list('quote:', false);
+    if (!list || !list.keys || list.keys.length === 0) {
+      box.innerHTML = '<div style="color:var(--text-faint);">No saved quotes yet</div>';
+      return;
+    }
+    box.innerHTML = '';
+    for (const key of list.keys.slice().reverse()) {
+      try {
+        const r = await window.storage.get(key, false);
+        if (!r) continue;
+        const data = JSON.parse(r.value);
+        const row = el('div', 'saved-item');
+        const dt = new Date(data.savedAt);
+        row.innerHTML = `<span>${data.job} <span style="color:var(--text-faint);">— ${dt.toLocaleDateString()}</span></span>`;
+        const btnWrap = el('span');
+        const loadBtn = el('button', 'small', 'Load');
+        loadBtn.addEventListener('click', () => loadQuote(data));
+        const delBtn = el('button', 'ghost', '✕');
+        delBtn.addEventListener('click', async () => {
+          try { await window.storage.delete(key, false); showToast('Deleted'); await renderSavedList(); }
+          catch (e) { showToast('Delete failed'); }
+        });
+        btnWrap.appendChild(loadBtn);
+        btnWrap.appendChild(delBtn);
+        row.appendChild(btnWrap);
+        box.appendChild(row);
+      } catch (e) { /* skip unreadable entry */ }
+    }
+  } catch (e) {
+    box.innerHTML = '<div style="color:var(--text-faint);">Couldn\'t load saved quotes</div>';
+  }
+}
+
+function loadQuote(data) {
+  document.getElementById('jobName').value = data.job || '';
+  state = data.state || { controllers: [] };
+  fixturePrices = data.fixturePrices || fixturePrices;
+  document.getElementById('otherCost').value = data.otherCost || 0;
+  // recompute seq counters to avoid id collisions
+  controllerSeq = state.controllers.length;
+  chainSeq = allChains().length;
+  render();
+  showToast('Quote loaded');
+}
+
+document.getElementById('saveQuoteBtn').addEventListener('click', saveQuote);
+
+let toastTimer = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ---------- price/cost input listeners ----------
+['otherCost'].forEach(id => {
+  document.getElementById(id).addEventListener('input', computeTotal);
+});
+
+document.getElementById('addControllerBtn').addEventListener('click', addController);
+
+// ---------- init ----------
+function render() {
+  renderControllers();
+  syncSidebar();
+}
+
+renderRefTable();
+addController(); // start with one controller so the tool isn't empty
+renderSavedList();
+</script>
+
+</body>
+</html>
